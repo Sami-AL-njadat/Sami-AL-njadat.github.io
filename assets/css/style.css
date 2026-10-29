@@ -892,6 +892,44 @@ html[lang="ar"] .section__title {
     font-weight: 600;
 }
 
+.sectors {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.sectors li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border-2);
+    font-size: 14px;
+    font-weight: 500;
+    transition: border-color .2s, background .2s, transform .2s var(--ease);
+}
+
+.sectors li:hover {
+    transform: translateY(-2px);
+    border-color: var(--violet);
+    background: rgba(139, 92, 246, .12);
+}
+
+.sectors li i {
+    color: var(--cyan);
+    font-size: 13px;
+}
+
+.sectors .sectors__more {
+    border-style: dashed;
+    color: var(--muted);
+}
+
 .ticks {
     list-style: none;
     padding: 0;
