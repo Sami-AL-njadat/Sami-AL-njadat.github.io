@@ -434,40 +434,8 @@ html[lang="ar"] #langLabel {
     gap: 48px;
 }
 
-.pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 16px;
-    border-radius: 999px;
-    background: rgba(52, 211, 153, .08);
-    border: 1px solid rgba(52, 211, 153, .3);
-    color: #8ff0c8;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.pill__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 0 0 rgba(52, 211, 153, .7);
-    animation: ping 2s infinite;
-}
-
-@keyframes ping {
-    70% {
-        box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(52, 211, 153, 0);
-    }
-}
-
 .hero__title {
-    margin: 22px 0 12px;
+    margin: 0 0 12px;
     font-family: var(--f-display);
     font-weight: 700;
     line-height: 1.02;
