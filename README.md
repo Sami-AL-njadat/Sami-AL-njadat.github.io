@@ -2,7 +2,7 @@
 
 Personal portfolio of **Sami Ismaeel Al-Najadat**, Full Stack Web Developer (PHP · Laravel · Yii2 · Node.js · NestJS · React · Next.js · MySQL · PostgreSQL).
 
-🔗 **Live:** https://sami-al-njadat.github.io/project2/
+🔗 **Live:** https://sami-al-njadat.github.io/
 
 ## Features
 
