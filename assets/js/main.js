@@ -55,11 +55,14 @@
             "contact.eyebrow": "Contact", "contact.title": "Let's build something great",
             "contact.sub": "Have a project, a job opportunity or just want to say hi? My inbox is always open.",
             "contact.email": "Email", "contact.phone": "Phone", "contact.wa": "Chat with me directly",
-            "form.title": "Send me a message", "form.name": "Your name", "form.subject": "Subject", "form.message": "Message",
-            "form.email": "Send via Email", "form.wa": "Send via WhatsApp",
-            "form.note": "Opens your email app or WhatsApp with the message ready to send.",
+            "form.title": "Send me a message", "form.name": "Your name", "form.yourEmail": "Your email",
+            "form.subject": "Subject", "form.message": "Message",
+            "form.send": "Send message", "form.sending": "Sending…", "form.wa": "Send via WhatsApp",
+            "form.ok": "Thank you! Your message has been sent — I'll get back to you soon.",
+            "form.err": "Something went wrong. Please try again, or reach me on WhatsApp.",
+            "form.note": "Your message goes straight to my inbox. Prefer to chat? Use WhatsApp.",
             "footer.made": "Designed &amp; built with",
-            "toast.copied": "Copied to clipboard", "toast.fill": "Please fill in all fields",
+            "toast.copied": "Copied to clipboard", "toast.fill": "Please fill in all fields correctly",
             "msg.from": "From",
             roles: ["Full Stack Web Developer", "Laravel & NestJS Developer", "React & Next.js Developer", "PHP & Node.js Engineer", "Real-world Problem Solver"]
         },
@@ -104,11 +107,14 @@
             "contact.eyebrow": "تواصل", "contact.title": "لنبنِ شيئاً رائعاً معاً",
             "contact.sub": "لديك مشروع، فرصة عمل، أو تريد فقط إلقاء التحية؟ أنا متاح دائماً.",
             "contact.email": "البريد الإلكتروني", "contact.phone": "الهاتف", "contact.wa": "تحدث معي مباشرة",
-            "form.title": "أرسل لي رسالة", "form.name": "اسمك", "form.subject": "الموضوع", "form.message": "الرسالة",
-            "form.email": "إرسال عبر البريد", "form.wa": "إرسال عبر واتساب",
-            "form.note": "سيفتح تطبيق البريد أو واتساب والرسالة جاهزة للإرسال.",
+            "form.title": "أرسل لي رسالة", "form.name": "اسمك", "form.yourEmail": "بريدك الإلكتروني",
+            "form.subject": "الموضوع", "form.message": "الرسالة",
+            "form.send": "إرسال الرسالة", "form.sending": "جارٍ الإرسال…", "form.wa": "إرسال عبر واتساب",
+            "form.ok": "شكراً لك! تم إرسال رسالتك وسأرد عليك قريباً.",
+            "form.err": "حدث خطأ. حاول مرة أخرى، أو تواصل معي عبر واتساب.",
+            "form.note": "تصل رسالتك مباشرة إلى بريدي. تفضّل المحادثة؟ استخدم واتساب.",
             "footer.made": "صُمّم وبُني بكل",
-            "toast.copied": "تم النسخ", "toast.fill": "يرجى تعبئة جميع الحقول",
+            "toast.copied": "تم النسخ", "toast.fill": "يرجى تعبئة جميع الحقول بشكل صحيح",
             "msg.from": "من",
             roles: ["مطوّر ويب Full Stack", "مطوّر Laravel و NestJS", "مطوّر React و Next.js", "مهندس PHP و Node.js", "أحب حل المشاكل الحقيقية"]
         }
@@ -575,31 +581,79 @@
         setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i>'; }, 1600);
     }));
 
+    // Web3Forms public access key — messages are delivered to sami.alnajadat@gmail.com
+    const WEB3FORMS_KEY = "bd03de7b-a47f-4cb9-b173-f6047ae4fb8e";
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const form = $("#contactForm");
-    function readForm() {
+    const formStatus = $("#formStatus");
+    const submitBtn = $("#formSubmit");
+
+    function readForm(fields) {
         let ok = true;
         const data = {};
-        ["name", "subject", "message"].forEach((n) => {
+        fields.forEach((n) => {
             const input = form.elements[n];
             const v = input.value.trim();
-            input.closest(".field").classList.toggle("invalid", !v);
-            if (!v) ok = false;
+            const valid = n === "email" ? EMAIL_RE.test(v) : Boolean(v);
+            input.closest(".field").classList.toggle("invalid", !valid);
+            if (!valid) ok = false;
             data[n] = v;
         });
         if (!ok) showToast(t("toast.fill"), "fa-circle-exclamation");
         return ok ? data : null;
     }
 
-    form.addEventListener("submit", (e) => {
+    function setStatus(kind, msg = "") {
+        formStatus.hidden = !kind;
+        formStatus.className = `form__status${kind ? ` form__status--${kind}` : ""}`;
+        formStatus.innerHTML = kind
+            ? `<i class="fa-solid ${kind === "ok" ? "fa-circle-check" : "fa-circle-exclamation"}"></i><span>${msg}</span>`
+            : "";
+    }
+
+    function setSending(sending) {
+        submitBtn.disabled = sending;
+        submitBtn.innerHTML = sending
+            ? `<i class="fa-solid fa-spinner fa-spin"></i><span>${t("form.sending")}</span>`
+            : `<i class="fa-regular fa-paper-plane"></i><span data-i18n="form.send">${t("form.send")}</span>`;
+    }
+
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const d = readForm();
+        setStatus(null);
+        const d = readForm(["name", "email", "subject", "message"]);
         if (!d) return;
-        const body = `${d.message}\n\n— ${d.name}`;
-        window.location.href = `mailto:sami.alnajadat@gmail.com?subject=${encodeURIComponent(d.subject)}&body=${encodeURIComponent(body)}`;
+        // bots that tick the hidden box get a fake success and nothing is sent
+        if (form.elements.botcheck.checked) { form.reset(); setStatus("ok", t("form.ok")); return; }
+
+        setSending(true);
+        try {
+            const res = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify({
+                    access_key: WEB3FORMS_KEY,
+                    subject: `Portfolio message: ${d.subject}`,
+                    from_name: "Sami Al-Najadat Portfolio",
+                    name: d.name,
+                    email: d.email,
+                    message: d.message
+                })
+            });
+            const json = await res.json();
+            if (!json.success) throw new Error(json.message);
+            form.reset();
+            setStatus("ok", t("form.ok"));
+        } catch (err) {
+            setStatus("err", t("form.err"));
+        } finally {
+            setSending(false);
+        }
     });
 
     $("#waSend").addEventListener("click", () => {
-        const d = readForm();
+        setStatus(null);
+        const d = readForm(["name", "subject", "message"]);
         if (!d) return;
         const text = `*${d.subject}*\n\n${d.message}\n\n— ${d.name}`;
         window.open(`https://wa.me/962777415591?text=${encodeURIComponent(text)}`, "_blank", "noopener");

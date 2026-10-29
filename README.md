@@ -10,7 +10,7 @@ Personal portfolio of **Sami Ismaeel Al-Najadat**, Full Stack Web Developer (PHP
 - Animated hero, particle background, scroll reveal and counters
 - Skills, experience & education timeline
 - Filterable projects grid linked to GitHub repositories
-- Contact cards (email, phone, WhatsApp, Telegram, LinkedIn) and a message form that opens Email or WhatsApp
+- Contact cards (email, phone, WhatsApp, Telegram, LinkedIn) and a message form that delivers straight to my inbox via [Web3Forms](https://web3forms.com) (no backend), with a WhatsApp option
 - Fully responsive, no build step — plain HTML, CSS and JavaScript
 
 ## Structure

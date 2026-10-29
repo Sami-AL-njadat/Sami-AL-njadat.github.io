@@ -438,31 +438,39 @@
 
                     <form class="form reveal" id="contactForm" novalidate>
                         <h3 data-i18n="form.title">Send me a message</h3>
+                        <!-- honeypot: real visitors never see or tick this -->
+                        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off"
+                            aria-hidden="true" />
                         <div class="form__row">
                             <label class="field">
                                 <span data-i18n="form.name">Your name</span>
                                 <input type="text" name="name" required autocomplete="name" />
                             </label>
                             <label class="field">
-                                <span data-i18n="form.subject">Subject</span>
-                                <input type="text" name="subject" required />
+                                <span data-i18n="form.yourEmail">Your email</span>
+                                <input type="email" name="email" required autocomplete="email" dir="ltr" />
                             </label>
                         </div>
+                        <label class="field">
+                            <span data-i18n="form.subject">Subject</span>
+                            <input type="text" name="subject" required />
+                        </label>
                         <label class="field">
                             <span data-i18n="form.message">Message</span>
                             <textarea name="message" rows="5" required></textarea>
                         </label>
                         <div class="form__actions">
-                            <button type="submit" class="btn btn--primary">
-                                <i class="fa-regular fa-envelope"></i><span data-i18n="form.email">Send via
-                                    Email</span>
+                            <button type="submit" class="btn btn--primary" id="formSubmit">
+                                <i class="fa-regular fa-paper-plane"></i><span data-i18n="form.send">Send
+                                    message</span>
                             </button>
                             <button type="button" class="btn btn--wa" id="waSend">
                                 <i class="fa-brands fa-whatsapp"></i><span data-i18n="form.wa">Send via WhatsApp</span>
                             </button>
                         </div>
-                        <p class="form__note" data-i18n="form.note">Opens your email app or WhatsApp with the message
-                            ready to send.</p>
+                        <p class="form__status" id="formStatus" role="status" aria-live="polite" hidden></p>
+                        <p class="form__note" data-i18n="form.note">Your message goes straight to my inbox. Prefer
+                            to chat? Use WhatsApp.</p>
                     </form>
                 </div>
             </div>
