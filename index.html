@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sami Al-Najadat | Full Stack Web Developer</title>
+    <meta name="description"
+        content="Sami Ismaeel Al-Najadat — Full Stack Web Developer from Jordan, specialised in Laravel, Yii2, PHP and React.js. HR systems, multi-company platforms, REST APIs and production deployments." />
+    <meta name="author" content="Sami Al-Najadat" />
+    <meta name="theme-color" content="#07080d" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sami Al-Najadat | Full Stack Web Developer" />
+    <meta property="og:description"
+        content="Laravel · Yii2 · PHP · React.js — I build HR systems, REST APIs and full-stack web apps." />
+    <meta property="og:image" content="https://sami-al-njadat.github.io/project2/assets/img/sami.png" />
+    <meta property="og:url" content="https://sami-al-njadat.github.io/project2/" />
+
+    <link rel="icon" type="image/png" href="./assets/img/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+
+<body>
+    <!-- loader -->
+    <div class="loader" id="loader" aria-hidden="true">
+        <img src="./assets/img/logo.png" alt="" class="loader__logo" />
+        <div class="loader__bar"><span></span></div>
+    </div>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+    <canvas id="bgCanvas" class="bg-canvas" aria-hidden="true"></canvas>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <!-- ============ NAV ============ -->
+    <header class="nav" id="nav">
+        <div class="nav__inner container">
+            <a href="#home" class="nav__brand" aria-label="Home">
+                <img src="./assets/img/logo.png" alt="SAM logo" />
+            </a>
+
+            <nav class="nav__links" id="navLinks" aria-label="Main">
+                <a href="#home" class="nav__link active" data-i18n="nav.home">Home</a>
+                <a href="#about" class="nav__link" data-i18n="nav.about">About</a>
+                <a href="#skills" class="nav__link" data-i18n="nav.skills">Skills</a>
+                <a href="#journey" class="nav__link" data-i18n="nav.journey">Journey</a>
+                <a href="#projects" class="nav__link" data-i18n="nav.projects">Projects</a>
+                <a href="#contact" class="nav__link" data-i18n="nav.contact">Contact</a>
+            </nav>
+
+            <div class="nav__actions">
+                <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+                    <i class="fa-solid fa-language"></i><span id="langLabel">عربي</span>
+                </button>
+                <a href="#contact" class="btn btn--sm btn--primary nav__cta" data-i18n="nav.hire">Hire me</a>
+                <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============ HERO ============ -->
+        <section class="hero" id="home">
+            <div class="container hero__inner">
+                <div class="hero__text">
+                    <div class="pill reveal">
+                        <span class="pill__dot"></span>
+                        <span data-i18n="hero.badge">Available for new opportunities</span>
+                    </div>
+
+                    <h1 class="hero__title reveal">
+                        <span class="hero__hi" data-i18n="hero.hi">Hi, I'm</span>
+                        <span class="hero__name grad-text" data-i18n="hero.name">Sami <span class="nw">Al-Najadat</span></span>
+                    </h1>
+
+                    <p class="hero__role reveal">
+                        <span class="mono">&lt;</span><span id="typed" class="typed"></span><span
+                            class="caret"></span><span class="mono">/&gt;</span>
+                    </p>
+
+                    <p class="hero__desc reveal" data-i18n="hero.desc">
+                        Full Stack Web Developer from Jordan. I turn real business problems into fast, secure and
+                        scalable web applications — with Laravel &amp; Yii2 on the backend and React.js on the front.
+                    </p>
+
+                    <div class="hero__cta reveal">
+                        <a href="#projects" class="btn btn--primary">
+                            <i class="fa-solid fa-rocket"></i><span data-i18n="hero.cta1">View my work</span>
+                        </a>
+                        <a href="#contact" class="btn btn--ghost">
+                            <i class="fa-regular fa-paper-plane"></i><span data-i18n="hero.cta2">Let's talk</span>
+                        </a>
+                    </div>
+
+                    <div class="socials reveal">
+                        <a href="https://github.com/Sami-AL-njadat" target="_blank" rel="noopener" aria-label="GitHub"><i
+                                class="fa-brands fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/sami-al-njadat/" target="_blank" rel="noopener"
+                            aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/962777415591" target="_blank" rel="noopener" aria-label="WhatsApp"><i
+                                class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://t.me/saminjt95" target="_blank" rel="noopener" aria-label="Telegram"><i
+                                class="fa-brands fa-telegram"></i></a>
+                        <a href="mailto:sami.alnajadat@gmail.com" aria-label="Email"><i
+                                class="fa-regular fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="hero__visual reveal">
+                    <div class="avatar" id="avatar">
+                        <div class="avatar__ring"></div>
+                        <div class="avatar__blob"></div>
+                        <img src="./assets/img/sami.png" alt="Sami Al-Najadat" class="avatar__img" />
+
+                        <div class="chip chip--1"><img
+                                src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/laravel/laravel-original.svg"
+                                alt="" />Laravel</div>
+                        <div class="chip chip--2"><img
+                                src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/react/react-original.svg"
+                                alt="" />React</div>
+                        <div class="chip chip--3"><img
+                                src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/php/php-original.svg"
+                                alt="" />PHP</div>
+                        <div class="chip chip--4"><img
+                                src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/mysql/mysql-original.svg"
+                                alt="" />MySQL</div>
+
+                        <div class="code-card">
+                            <div class="code-card__dots"><i></i><i></i><i></i></div>
+<pre><code><span class="tk-k">class</span> <span class="tk-c">Sami</span> <span class="tk-k">extends</span> <span class="tk-c">Developer</span> {
+  <span class="tk-k">public</span> <span class="tk-v">$stack</span> = [<span class="tk-s">'Laravel'</span>, <span class="tk-s">'React'</span>];
+  <span class="tk-k">public</span> <span class="tk-v">$coffee</span> = <span class="tk-n">INF</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#about" class="scroll-hint" aria-label="Scroll down"><span></span></a>
+        </section>
+
+        <!-- ============ STATS ============ -->
+        <section class="stats container">
+            <div class="stat reveal">
+                <div class="stat__num"><span class="counter" data-target="3">0</span>+</div>
+                <div class="stat__label" data-i18n="stats.years">Years building for the web</div>
+            </div>
+            <div class="stat reveal">
+                <div class="stat__num"><span class="counter" id="repoCount" data-target="32">0</span></div>
+                <div class="stat__label" data-i18n="stats.repos">Public GitHub repositories</div>
+            </div>
+            <div class="stat reveal">
+                <div class="stat__num"><span class="counter" data-target="15">0</span>+</div>
+                <div class="stat__label" data-i18n="stats.projects">Projects shipped &amp; built</div>
+            </div>
+            <div class="stat reveal">
+                <div class="stat__num"><span class="counter" data-target="18">0</span>+</div>
+                <div class="stat__label" data-i18n="stats.tech">Technologies &amp; tools</div>
+            </div>
+        </section>
+
+        <!-- ============ ABOUT ============ -->
+        <section class="section" id="about">
+            <div class="container">
+                <div class="section__head reveal">
+                    <span class="eyebrow">01 · <span data-i18n="about.eyebrow">About me</span></span>
+                    <h2 class="section__title" data-i18n="about.title">Code that solves real problems</h2>
+                </div>
+
+                <div class="about">
+                    <div class="about__text reveal">
+                        <p data-i18n="about.p1">
+                            I'm <strong>Sami Ismaeel Al-Najadat</strong>, a passionate Full Stack Web Developer with a
+                            backend heart. I mainly work with <strong>Laravel</strong> and <strong>Yii2</strong>, and I
+                            build full-stack apps with <strong>React.js</strong> on top of Laravel APIs.
+                        </p>
+                        <p data-i18n="about.p2">
+                            My background in Accounting and Finance &amp; Banking gives me something rare among
+                            developers: I understand how a business actually works — payroll, attendance, invoices,
+                            permissions — and I build systems that fit it.
+                        </p>
+                        <ul class="ticks">
+                            <li data-i18n="about.l1">HR systems: attendance, shifts, calendars &amp; payroll</li>
+                            <li data-i18n="about.l2">Multi-company platforms with role-based access &amp; custom
+                                permissions</li>
+                            <li data-i18n="about.l3">Building and deploying Laravel &amp; React projects in production
+                            </li>
+                            <li data-i18n="about.l4">Exploring DevOps &amp; cloud deployment (AWS, DigitalOcean,
+                                Vercel)</li>
+                        </ul>
+                    </div>
+
+                    <div class="services">
+                        <article class="service reveal tilt">
+                            <div class="service__icon"><i class="fa-solid fa-server"></i></div>
+                            <h3 data-i18n="srv.1t">Backend Engineering</h3>
+                            <p data-i18n="srv.1d">Clean, secure Laravel &amp; Yii2 architectures, REST APIs, auth with
+                                Passport and solid database design.</p>
+                        </article>
+                        <article class="service reveal tilt">
+                            <div class="service__icon"><i class="fa-brands fa-react"></i></div>
+                            <h3 data-i18n="srv.2t">Frontend with React</h3>
+                            <p data-i18n="srv.2d">Responsive, modern interfaces and dashboards with React.js, Tailwind
+                                and Bootstrap.</p>
+                        </article>
+                        <article class="service reveal tilt">
+                            <div class="service__icon"><i class="fa-solid fa-users-gear"></i></div>
+                            <h3 data-i18n="srv.3t">Business Systems</h3>
+                            <p data-i18n="srv.3d">HR, inventory and e-commerce systems — with roles, permissions and
+                                multi-company support.</p>
+                        </article>
+                        <article class="service reveal tilt">
+                            <div class="service__icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                            <h3 data-i18n="srv.4t">Deployment</h3>
+                            <p data-i18n="srv.4d">Shipping to production on DigitalOcean &amp; Vercel, with Git-based
+                                team workflows.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SKILLS ============ -->
+        <section class="section" id="skills">
+            <div class="container">
+                <div class="section__head reveal">
+                    <span class="eyebrow">02 · <span data-i18n="skills.eyebrow">Tech stack</span></span>
+                    <h2 class="section__title" data-i18n="skills.title">Tools I use every day</h2>
+                </div>
+
+                <div class="skills" id="skillsGrid"></div>
+            </div>
+
+            <div class="marquee" aria-hidden="true">
+                <div class="marquee__track" id="marquee"></div>
+            </div>
+        </section>
+
+        <!-- ============ JOURNEY ============ -->
+        <section class="section" id="journey">
+            <div class="container">
+                <div class="section__head reveal">
+                    <span class="eyebrow">03 · <span data-i18n="journey.eyebrow">Journey</span></span>
+                    <h2 class="section__title" data-i18n="journey.title">Experience &amp; Education</h2>
+                </div>
+
+                <div class="timeline">
+                    <article class="tl-item reveal">
+                        <div class="tl-item__dot"><i class="fa-solid fa-briefcase"></i></div>
+                        <div class="tl-item__card tilt">
+                            <span class="tl-item__tag" data-i18n="journey.now">Now</span>
+                            <h3 data-i18n="journey.job.t">Full Stack Web Developer</h3>
+                            <p class="tl-item__org" data-i18n="journey.job.o">Backend-focused · Laravel &amp; Yii2</p>
+                            <p data-i18n="journey.job.d">Building HR systems with attendance, shifts and calendar
+                                features, and multi-company platforms with role-based access and custom permissions.
+                                Shipping Laravel &amp; React projects to production.</p>
+                        </div>
+                    </article>
+
+                    <article class="tl-item reveal">
+                        <div class="tl-item__dot"><i class="fa-solid fa-code"></i></div>
+                        <div class="tl-item__card tilt">
+                            <span class="tl-item__tag" data-i18n="journey.bootcamp">Bootcamp</span>
+                            <div class="tl-item__head">
+                                <img src="./assets/img/coding-academy.png" alt="Orange Coding Academy" />
+                                <div>
+                                    <h3 data-i18n="journey.oca.t">Full Stack Web Development</h3>
+                                    <p class="tl-item__org" data-i18n="journey.oca.o">Orange Coding Academy</p>
+                                </div>
+                            </div>
+                            <p data-i18n="journey.oca.d">Intensive full-stack program: HTML, CSS, JavaScript, React,
+                                PHP, Laravel and MySQL — delivered through real team projects using Agile, Trello and
+                                Miro.</p>
+                        </div>
+                    </article>
+
+                    <article class="tl-item reveal">
+                        <div class="tl-item__dot"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div class="tl-item__card tilt">
+                            <span class="tl-item__tag" data-i18n="journey.degree">Bachelor's degree</span>
+                            <div class="tl-item__head">
+                                <img src="./assets/img/yarmouk.jpg" alt="Yarmouk University" />
+                                <div>
+                                    <h3 data-i18n="journey.fin.t">B.Sc. Finance &amp; Banking Science</h3>
+                                    <p class="tl-item__org" data-i18n="journey.yu">Yarmouk University</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="tl-item reveal">
+                        <div class="tl-item__dot"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div class="tl-item__card tilt">
+                            <span class="tl-item__tag" data-i18n="journey.degree">Bachelor's degree</span>
+                            <div class="tl-item__head">
+                                <img src="./assets/img/yarmouk.jpg" alt="Yarmouk University" />
+                                <div>
+                                    <h3 data-i18n="journey.acc.t">B.Sc. Accounting</h3>
+                                    <p class="tl-item__org" data-i18n="journey.yu">Yarmouk University</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PROJECTS ============ -->
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section__head reveal">
+                    <span class="eyebrow">04 · <span data-i18n="projects.eyebrow">Portfolio</span></span>
+                    <h2 class="section__title" data-i18n="projects.title">Things I've built</h2>
+                </div>
+
+                <div class="filters reveal" id="filters" role="tablist">
+                    <button class="filter active" data-filter="all" data-i18n="projects.all">All</button>
+                    <button class="filter" data-filter="laravel">Laravel</button>
+                    <button class="filter" data-filter="php">PHP</button>
+                    <button class="filter" data-filter="react">React</button>
+                    <button class="filter" data-filter="js">JavaScript</button>
+                </div>
+
+                <div class="projects" id="projectsGrid"></div>
+
+                <div class="center reveal">
+                    <a href="https://github.com/Sami-AL-njadat?tab=repositories" target="_blank" rel="noopener"
+                        class="btn btn--ghost">
+                        <i class="fa-brands fa-github"></i><span data-i18n="projects.more">See all repositories on
+                            GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CONTACT ============ -->
+        <section class="section" id="contact">
+            <div class="container">
+                <div class="section__head reveal">
+                    <span class="eyebrow">05 · <span data-i18n="contact.eyebrow">Contact</span></span>
+                    <h2 class="section__title" data-i18n="contact.title">Let's build something great</h2>
+                    <p class="section__sub" data-i18n="contact.sub">Have a project, a job opportunity or just want to
+                        say hi? My inbox is always open.</p>
+                </div>
+
+                <div class="contact">
+                    <div class="contact__cards">
+                        <div class="c-card reveal tilt">
+                            <div class="c-card__icon c-card__icon--mail"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="c-card__body">
+                                <span class="c-card__label" data-i18n="contact.email">Email</span>
+                                <a href="mailto:sami.alnajadat@gmail.com" class="c-card__value"
+                                    dir="ltr">sami.alnajadat@gmail.com</a>
+                            </div>
+                            <button class="icon-btn" data-copy="sami.alnajadat@gmail.com" aria-label="Copy email"><i
+                                    class="fa-regular fa-copy"></i></button>
+                        </div>
+
+                        <div class="c-card reveal tilt">
+                            <div class="c-card__icon c-card__icon--phone"><i class="fa-solid fa-phone"></i></div>
+                            <div class="c-card__body">
+                                <span class="c-card__label" data-i18n="contact.phone">Phone</span>
+                                <a href="tel:+962777415591" class="c-card__value" dir="ltr">+962 77 741 5591</a>
+                            </div>
+                            <button class="icon-btn" data-copy="+962777415591" aria-label="Copy phone number"><i
+                                    class="fa-regular fa-copy"></i></button>
+                        </div>
+
+                        <a class="c-card reveal tilt" href="https://wa.me/962777415591" target="_blank" rel="noopener">
+                            <div class="c-card__icon c-card__icon--wa"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div class="c-card__body">
+                                <span class="c-card__label">WhatsApp</span>
+                                <span class="c-card__value" data-i18n="contact.wa">Chat with me directly</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square c-card__go"></i>
+                        </a>
+
+                        <a class="c-card reveal tilt" href="https://t.me/saminjt95" target="_blank" rel="noopener">
+                            <div class="c-card__icon c-card__icon--tg"><i class="fa-brands fa-telegram"></i></div>
+                            <div class="c-card__body">
+                                <span class="c-card__label">Telegram</span>
+                                <span class="c-card__value" dir="ltr">@saminjt95</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square c-card__go"></i>
+                        </a>
+
+                        <a class="c-card reveal tilt" href="https://www.linkedin.com/in/sami-al-njadat/"
+                            target="_blank" rel="noopener">
+                            <div class="c-card__icon c-card__icon--in"><i class="fa-brands fa-linkedin-in"></i></div>
+                            <div class="c-card__body">
+                                <span class="c-card__label">LinkedIn</span>
+                                <span class="c-card__value" dir="ltr">in/sami-al-njadat</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square c-card__go"></i>
+                        </a>
+
+                        <a class="c-card reveal tilt" href="https://github.com/Sami-AL-njadat" target="_blank"
+                            rel="noopener">
+                            <div class="c-card__icon c-card__icon--gh"><i class="fa-brands fa-github"></i></div>
+                            <div class="c-card__body">
+                                <span class="c-card__label">GitHub</span>
+                                <span class="c-card__value" dir="ltr">Sami-AL-njadat</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square c-card__go"></i>
+                        </a>
+                    </div>
+
+                    <form class="form reveal" id="contactForm" novalidate>
+                        <h3 data-i18n="form.title">Send me a message</h3>
+                        <div class="form__row">
+                            <label class="field">
+                                <span data-i18n="form.name">Your name</span>
+                                <input type="text" name="name" required autocomplete="name" />
+                            </label>
+                            <label class="field">
+                                <span data-i18n="form.subject">Subject</span>
+                                <input type="text" name="subject" required />
+                            </label>
+                        </div>
+                        <label class="field">
+                            <span data-i18n="form.message">Message</span>
+                            <textarea name="message" rows="5" required></textarea>
+                        </label>
+                        <div class="form__actions">
+                            <button type="submit" class="btn btn--primary">
+                                <i class="fa-regular fa-envelope"></i><span data-i18n="form.email">Send via
+                                    Email</span>
+                            </button>
+                            <button type="button" class="btn btn--wa" id="waSend">
+                                <i class="fa-brands fa-whatsapp"></i><span data-i18n="form.wa">Send via WhatsApp</span>
+                            </button>
+                        </div>
+                        <p class="form__note" data-i18n="form.note">Opens your email app or WhatsApp with the message
+                            ready to send.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <a href="#home" class="footer__brand"><img src="./assets/img/logo.png" alt="SAM logo" /></a>
+            <p class="footer__copy">© <span id="year">2026</span> Sami Al-Najadat · <span
+                    data-i18n="footer.made">Designed &amp; built with</span> <i class="fa-solid fa-heart"></i></p>
+            <div class="socials socials--sm">
+                <a href="https://github.com/Sami-AL-njadat" target="_blank" rel="noopener" aria-label="GitHub"><i
+                        class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/sami-al-njadat/" target="_blank" rel="noopener"
+                    aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://wa.me/962777415591" target="_blank" rel="noopener" aria-label="WhatsApp"><i
+                        class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://t.me/saminjt95" target="_blank" rel="noopener" aria-label="Telegram"><i
+                        class="fa-brands fa-telegram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#home" class="to-top" id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></a>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
