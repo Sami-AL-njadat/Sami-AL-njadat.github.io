@@ -56,9 +56,14 @@
             "contact.sub": "Have a project, a job opportunity or just want to say hi? My inbox is always open.",
             "contact.email": "Email", "contact.phone": "Phone", "contact.wa": "Chat with me directly",
             "form.title": "Send me a message", "form.name": "Your name", "form.yourEmail": "Your email",
-            "form.subject": "Subject", "form.message": "Message",
-            "form.send": "Send message", "form.sending": "Sending…", "form.wa": "Send via WhatsApp",
-            "form.ok": "Thank you! Your message has been sent — I'll get back to you soon.",
+            "form.phone": "Phone (optional)", "form.subject": "Subject", "form.message": "Message",
+            "form.send": "Send message", "form.sending": "Sending…", "form.wait": "Available in",
+            "form.wa": "Send via WhatsApp",
+            "form.doneTitle": "Message sent successfully!",
+            "form.doneText": "Thank you, {name}! I've received your message and will get back to you soon.",
+            "form.againPre": "To send another message,", "form.againLink": "click here",
+            "form.againIn": "You can send another message in {time}",
+            "form.tooSoon": "Please wait {time} before sending another message.",
             "form.err": "Something went wrong. Please try again, or reach me on WhatsApp.",
             "form.note": "Your message goes straight to my inbox. Prefer to chat? Use WhatsApp.",
             "footer.made": "Designed &amp; built with",
@@ -108,9 +113,14 @@
             "contact.sub": "لديك مشروع، فرصة عمل، أو تريد فقط إلقاء التحية؟ أنا متاح دائماً.",
             "contact.email": "البريد الإلكتروني", "contact.phone": "الهاتف", "contact.wa": "تحدث معي مباشرة",
             "form.title": "أرسل لي رسالة", "form.name": "اسمك", "form.yourEmail": "بريدك الإلكتروني",
-            "form.subject": "الموضوع", "form.message": "الرسالة",
-            "form.send": "إرسال الرسالة", "form.sending": "جارٍ الإرسال…", "form.wa": "إرسال عبر واتساب",
-            "form.ok": "شكراً لك! تم إرسال رسالتك وسأرد عليك قريباً.",
+            "form.phone": "رقم الهاتف (اختياري)", "form.subject": "الموضوع", "form.message": "الرسالة",
+            "form.send": "إرسال الرسالة", "form.sending": "جارٍ الإرسال…", "form.wait": "متاح بعد",
+            "form.wa": "إرسال عبر واتساب",
+            "form.doneTitle": "تم إرسال رسالتك بنجاح!",
+            "form.doneText": "شكراً {name}! وصلتني رسالتك وسأرد عليك في أقرب وقت.",
+            "form.againPre": "لإرسال رسالة أخرى،", "form.againLink": "انقر هنا",
+            "form.againIn": "يمكنك إرسال رسالة أخرى بعد {time}",
+            "form.tooSoon": "يرجى الانتظار {time} قبل إرسال رسالة أخرى.",
             "form.err": "حدث خطأ. حاول مرة أخرى، أو تواصل معي عبر واتساب.",
             "form.note": "تصل رسالتك مباشرة إلى بريدي. تفضّل المحادثة؟ استخدم واتساب.",
             "footer.made": "صُمّم وبُني بكل",
@@ -273,6 +283,7 @@
         renderSkills();
         renderProjects();
         restartTyping();
+        refreshForm();
     }
 
     $("#langBtn").addEventListener("click", () => {
@@ -583,10 +594,75 @@
 
     // Web3Forms public access key — messages are delivered to sami.alnajadat@gmail.com
     const WEB3FORMS_KEY = "bd03de7b-a47f-4cb9-b173-f6047ae4fb8e";
+    // client-side rate limit: one message per 5 minutes and at most 3 per 24 hours, per browser
+    const COOLDOWN_MS = 5 * 60 * 1000;
+    const DAILY_MAX = 3;
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const SENT_KEY = "contactSent";
+
     const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const PHONE_RE = /^\+?[\d\s\-()]{7,20}$/;
+    const RULES = {
+        email: (v) => EMAIL_RE.test(v),
+        phone: (v) => !v || (PHONE_RE.test(v) && v.replace(/\D/g, "").length >= 7) // optional
+    };
+
     const form = $("#contactForm");
+    const formBody = $("#formBody");
+    const formDone = $("#formDone");
     const formStatus = $("#formStatus");
     const submitBtn = $("#formSubmit");
+    let sending = false;
+    let sentName = "";
+    let memoryLog = []; // used when storage is blocked
+    let cooldownTimer;
+
+    const esc = (s) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+
+    function sentLog() {
+        let log = memoryLog;
+        try { log = JSON.parse(localStorage.getItem(SENT_KEY)) || []; } catch (e) { /* storage blocked */ }
+        return log.filter((ts) => ts > Date.now() - DAY_MS);
+    }
+
+    function recordSent() {
+        memoryLog = [...sentLog(), Date.now()];
+        try { localStorage.setItem(SENT_KEY, JSON.stringify(memoryLog)); } catch (e) { /* storage blocked */ }
+    }
+
+    // milliseconds until another message is allowed (0 = allowed now)
+    function waitMs() {
+        const log = sentLog();
+        if (!log.length) return 0;
+        let until = Math.max(...log) + COOLDOWN_MS;
+        if (log.length >= DAILY_MAX) until = Math.max(until, Math.min(...log) + DAY_MS);
+        return Math.max(0, until - Date.now());
+    }
+
+    function fmtWait(ms) {
+        const s = Math.ceil(ms / 1000);
+        const pad = (n) => String(n).padStart(2, "0");
+        const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+        return h ? `${h}:${pad(m)}:${pad(s % 60)}` : `${pad(m)}:${pad(s % 60)}`;
+    }
+
+    // redraws the submit button and the success panel; ticks every second while cooling down
+    function refreshForm() {
+        const wait = waitMs();
+        const time = `<bdi class="mono">${fmtWait(wait)}</bdi>`;
+        submitBtn.disabled = sending || wait > 0;
+        submitBtn.innerHTML = sending
+            ? `<i class="fa-solid fa-spinner fa-spin"></i><span>${t("form.sending")}</span>`
+            : wait
+                ? `<i class="fa-solid fa-lock"></i><span>${t("form.wait")} ${time}</span>`
+                : `<i class="fa-regular fa-paper-plane"></i><span>${t("form.send")}</span>`;
+        $("#formDoneText").innerHTML = t("form.doneText").replace("{name}", esc(sentName));
+        $("#formAgainLine").innerHTML = wait
+            ? t("form.againIn").replace("{time}", time)
+            : `${t("form.againPre")} <button type="button" class="form__again" id="formAgain">${t("form.againLink")}</button>`;
+        clearTimeout(cooldownTimer);
+        if (wait) cooldownTimer = setTimeout(refreshForm, 1000);
+    }
 
     function readForm(fields) {
         let ok = true;
@@ -594,7 +670,7 @@
         fields.forEach((n) => {
             const input = form.elements[n];
             const v = input.value.trim();
-            const valid = n === "email" ? EMAIL_RE.test(v) : Boolean(v);
+            const valid = RULES[n] ? RULES[n](v) : Boolean(v);
             input.closest(".field").classList.toggle("invalid", !valid);
             if (!valid) ok = false;
             data[n] = v;
@@ -603,30 +679,33 @@
         return ok ? data : null;
     }
 
-    function setStatus(kind, msg = "") {
-        formStatus.hidden = !kind;
-        formStatus.className = `form__status${kind ? ` form__status--${kind}` : ""}`;
-        formStatus.innerHTML = kind
-            ? `<i class="fa-solid ${kind === "ok" ? "fa-circle-check" : "fa-circle-exclamation"}"></i><span>${msg}</span>`
-            : "";
+    function setStatus(msg) {
+        formStatus.hidden = !msg;
+        formStatus.innerHTML = msg ? `<i class="fa-solid fa-circle-exclamation"></i><span>${msg}</span>` : "";
     }
 
-    function setSending(sending) {
-        submitBtn.disabled = sending;
-        submitBtn.innerHTML = sending
-            ? `<i class="fa-solid fa-spinner fa-spin"></i><span>${t("form.sending")}</span>`
-            : `<i class="fa-regular fa-paper-plane"></i><span data-i18n="form.send">${t("form.send")}</span>`;
+    function showDone(name) {
+        sentName = name;
+        form.reset();
+        formBody.hidden = true;
+        formDone.hidden = false;
+        refreshForm();
+        form.scrollIntoView({ block: "center", behavior: reduceMotion ? "auto" : "smooth" });
     }
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        setStatus(null);
-        const d = readForm(["name", "email", "subject", "message"]);
+        if (sending) return; // ignore double clicks
+        setStatus("");
+        const wait = waitMs();
+        if (wait) { setStatus(t("form.tooSoon").replace("{time}", fmtWait(wait))); return; }
+        const d = readForm(["name", "email", "phone", "subject", "message"]);
         if (!d) return;
         // bots that tick the hidden box get a fake success and nothing is sent
-        if (form.elements.botcheck.checked) { form.reset(); setStatus("ok", t("form.ok")); return; }
+        if (form.elements.botcheck.checked) { showDone(d.name); return; }
 
-        setSending(true);
+        sending = true;
+        refreshForm();
         try {
             const res = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
@@ -637,22 +716,32 @@
                     from_name: "Sami Al-Najadat Portfolio",
                     name: d.name,
                     email: d.email,
+                    phone: d.phone || "Not provided",
                     message: d.message
                 })
             });
             const json = await res.json();
             if (!json.success) throw new Error(json.message);
-            form.reset();
-            setStatus("ok", t("form.ok"));
+            recordSent();
+            showDone(d.name);
         } catch (err) {
-            setStatus("err", t("form.err"));
+            setStatus(t("form.err"));
         } finally {
-            setSending(false);
+            sending = false;
+            refreshForm();
         }
     });
 
+    formDone.addEventListener("click", (e) => {
+        if (!e.target.closest("#formAgain") || waitMs()) return;
+        formDone.hidden = true;
+        formBody.hidden = false;
+        setStatus("");
+        form.elements.name.focus();
+    });
+
     $("#waSend").addEventListener("click", () => {
-        setStatus(null);
+        setStatus("");
         const d = readForm(["name", "subject", "message"]);
         if (!d) return;
         const text = `*${d.subject}*\n\n${d.message}\n\n— ${d.name}`;

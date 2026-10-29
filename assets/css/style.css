@@ -1662,11 +1662,89 @@ html[dir="rtl"] .c-card__go {
     transform: none;
 }
 
+.field input::placeholder {
+    color: var(--dim);
+}
+
+.form__body[hidden],
+.form__done[hidden] {
+    display: none;
+}
+
+.form__done {
+    text-align: center;
+    padding: 26px 6px 10px;
+    animation: popIn .45s var(--ease) both;
+}
+
+.form__done-icon {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 32px;
+    color: #fff;
+    background: linear-gradient(135deg, #34d399, #10b981);
+    box-shadow: 0 0 0 10px rgba(52, 211, 153, .12), 0 18px 40px -12px rgba(16, 185, 129, .8);
+    animation: checkPop .6s var(--ease) .1s both;
+}
+
+@keyframes checkPop {
+    from {
+        opacity: 0;
+        transform: scale(.4);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.form .form__done h3 {
+    margin: 0 0 10px;
+    font-size: 24px;
+}
+
+.form__done p {
+    max-width: 400px;
+    margin: 0 auto;
+    color: var(--muted);
+}
+
+.form__done .form__again-line {
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text);
+    font-weight: 500;
+}
+
+.form__again {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--cyan);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.form__again:hover {
+    color: #fff;
+}
+
 .form__status {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    margin: 16px 0 0;
+    margin: 0 0 16px;
     padding: 12px 14px;
     border-radius: 12px;
     font-size: 14.5px;
@@ -1680,12 +1758,6 @@ html[dir="rtl"] .c-card__go {
 
 .form__status i {
     margin-top: 3px;
-}
-
-.form__status--ok {
-    background: rgba(52, 211, 153, .1);
-    border: 1px solid rgba(52, 211, 153, .35);
-    color: #8ff0c8;
 }
 
 .form__status--err {

@@ -437,40 +437,57 @@
                     </div>
 
                     <form class="form reveal" id="contactForm" novalidate>
-                        <h3 data-i18n="form.title">Send me a message</h3>
-                        <!-- honeypot: real visitors never see or tick this -->
-                        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off"
-                            aria-hidden="true" />
-                        <div class="form__row">
+                        <div class="form__body" id="formBody">
+                            <h3 data-i18n="form.title">Send me a message</h3>
+                            <!-- honeypot: real visitors never see or tick this -->
+                            <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off"
+                                aria-hidden="true" />
+                            <div class="form__row">
+                                <label class="field">
+                                    <span data-i18n="form.name">Your name</span>
+                                    <input type="text" name="name" required autocomplete="name" />
+                                </label>
+                                <label class="field">
+                                    <span data-i18n="form.yourEmail">Your email</span>
+                                    <input type="email" name="email" required autocomplete="email" dir="ltr" />
+                                </label>
+                            </div>
+                            <div class="form__row">
+                                <label class="field">
+                                    <span data-i18n="form.phone">Phone (optional)</span>
+                                    <input type="tel" name="phone" autocomplete="tel" inputmode="tel" dir="ltr"
+                                        placeholder="+962 7X XXX XXXX" />
+                                </label>
+                                <label class="field">
+                                    <span data-i18n="form.subject">Subject</span>
+                                    <input type="text" name="subject" required />
+                                </label>
+                            </div>
                             <label class="field">
-                                <span data-i18n="form.name">Your name</span>
-                                <input type="text" name="name" required autocomplete="name" />
+                                <span data-i18n="form.message">Message</span>
+                                <textarea name="message" rows="5" required></textarea>
                             </label>
-                            <label class="field">
-                                <span data-i18n="form.yourEmail">Your email</span>
-                                <input type="email" name="email" required autocomplete="email" dir="ltr" />
-                            </label>
+                            <p class="form__status form__status--err" id="formStatus" role="alert" hidden></p>
+                            <div class="form__actions">
+                                <button type="submit" class="btn btn--primary" id="formSubmit">
+                                    <i class="fa-regular fa-paper-plane"></i><span>Send message</span>
+                                </button>
+                                <button type="button" class="btn btn--wa" id="waSend">
+                                    <i class="fa-brands fa-whatsapp"></i><span data-i18n="form.wa">Send via
+                                        WhatsApp</span>
+                                </button>
+                            </div>
+                            <p class="form__note" data-i18n="form.note">Your message goes straight to my inbox.
+                                Prefer to chat? Use WhatsApp.</p>
                         </div>
-                        <label class="field">
-                            <span data-i18n="form.subject">Subject</span>
-                            <input type="text" name="subject" required />
-                        </label>
-                        <label class="field">
-                            <span data-i18n="form.message">Message</span>
-                            <textarea name="message" rows="5" required></textarea>
-                        </label>
-                        <div class="form__actions">
-                            <button type="submit" class="btn btn--primary" id="formSubmit">
-                                <i class="fa-regular fa-paper-plane"></i><span data-i18n="form.send">Send
-                                    message</span>
-                            </button>
-                            <button type="button" class="btn btn--wa" id="waSend">
-                                <i class="fa-brands fa-whatsapp"></i><span data-i18n="form.wa">Send via WhatsApp</span>
-                            </button>
+
+                        <!-- replaces the form after a successful send -->
+                        <div class="form__done" id="formDone" role="status" aria-live="polite" hidden>
+                            <div class="form__done-icon"><i class="fa-solid fa-check"></i></div>
+                            <h3 data-i18n="form.doneTitle">Message sent successfully!</h3>
+                            <p id="formDoneText"></p>
+                            <p class="form__again-line" id="formAgainLine"></p>
                         </div>
-                        <p class="form__status" id="formStatus" role="status" aria-live="polite" hidden></p>
-                        <p class="form__note" data-i18n="form.note">Your message goes straight to my inbox. Prefer
-                            to chat? Use WhatsApp.</p>
                     </form>
                 </div>
             </div>
